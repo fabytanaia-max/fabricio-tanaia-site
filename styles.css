@@ -147,29 +147,36 @@ h1 { margin-top: 0.5rem; font-size: clamp(2rem, 5.4vw, 4.2rem); line-height: 1.0
 }
 
 .videos-grid {
-  align-items: start;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding-bottom: 0.15rem;
 }
 
 .video-card {
   border: 1px solid var(--line);
   border-radius: 12px;
-  padding: 0.72rem;
+  padding: 0.58rem;
   background: rgba(242, 241, 232, 0.05);
 }
 
 .video-card video {
   width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
   border-radius: 10px;
   border: 1px solid var(--line);
   background: #0e0d0b;
 }
 
 .video-card h3 {
-  margin-top: 0.6rem;
+  margin-top: 0.45rem;
+  font-size: 1.02rem;
 }
 
 .video-card p {
-  margin-top: 0.4rem;
+  margin-top: 0.28rem;
+  font-size: 0.9rem;
   color: var(--muted);
 }
 
@@ -228,4 +235,5 @@ h1 { margin-top: 0.5rem; font-size: clamp(2rem, 5.4vw, 4.2rem); line-height: 1.0
 @media (max-width: 980px) {
   .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 1rem; }
   .grid.three, .grid.two { grid-template-columns: 1fr; }
+  .videos-grid { grid-template-columns: 1fr; }
 }
