@@ -146,6 +146,33 @@ h1 { margin-top: 0.5rem; font-size: clamp(2rem, 5.4vw, 4.2rem); line-height: 1.0
   background: rgba(242, 241, 232, 0.05);
 }
 
+.videos-grid {
+  align-items: start;
+}
+
+.video-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.72rem;
+  background: rgba(242, 241, 232, 0.05);
+}
+
+.video-card video {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #0e0d0b;
+}
+
+.video-card h3 {
+  margin-top: 0.6rem;
+}
+
+.video-card p {
+  margin-top: 0.4rem;
+  color: var(--muted);
+}
+
 .step span {
   display: inline-flex;
   width: 30px;
