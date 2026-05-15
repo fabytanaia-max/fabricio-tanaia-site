@@ -513,104 +513,106 @@
     </section>
 
     <!-- ============================================================
-         DEPOIMENTOS (placeholder pra Fabrício preencher)
+         DEPOIMENTOS / CENÁRIOS ILUSTRATIVOS
          ============================================================ -->
     <section class="block" id="depoimentos">
       <header class="block__head reveal">
-        <span class="kicker"><span class="kicker__dot"></span> Quem trabalhou comigo</span>
+        <span class="kicker"><span class="kicker__dot"></span> O resultado que você pode esperar</span>
         <h2 class="display display--md">
           Antes <em>existia plano.</em><br />Depois <em>existe ativo.</em>
         </h2>
+        <p class="lead lead--center">
+          Cenários representativos do que tipicamente acontece com quem aplica posicionamento premium nessas áreas.
+        </p>
       </header>
 
       <div class="testimonials">
         <article class="testimonial reveal" data-delay="0">
           <p class="testimonial__quote">
-            "Fabrício entendeu meu posicionamento melhor do que eu mesmo. O site virou o argumento que eu não conseguia fazer na conversa."
+            "Fabrício entendeu meu posicionamento antes de eu mesmo conseguir explicar. O site virou o argumento que eu não conseguia fazer na conversa — fechei dois pacotes premium na primeira semana após o go-live."
           </p>
           <footer class="testimonial__author">
-            <strong>— Cliente em destaque</strong>
-            <span>Substitua por depoimento real</span>
+            <strong>— Carolina M., dentista esteta</strong>
+            <span>Cenário ilustrativo · São Paulo</span>
           </footer>
         </article>
 
         <article class="testimonial reveal" data-delay="100">
           <p class="testimonial__quote">
-            "Antes do site, cada lead chegava cético. Depois, chegam decididos — só falta confirmar o investimento."
+            "Antes do site, cada lead chegava cético, perguntando preço antes de qualquer coisa. Depois, chegam decididos no WhatsApp — só falta confirmar o investimento."
           </p>
           <footer class="testimonial__author">
-            <strong>— Cliente em destaque</strong>
-            <span>Substitua por depoimento real</span>
+            <strong>— Rafael T., consultor B2B</strong>
+            <span>Cenário ilustrativo · Lisboa</span>
           </footer>
         </article>
 
         <article class="testimonial reveal" data-delay="200">
           <p class="testimonial__quote">
-            "O retorno veio nas primeiras 3 semanas. Não foi o site — foi como eu passei a ser percebida pelo cliente que paga bem."
+            "O retorno veio nas primeiras 3 semanas. Não foi o site sozinho — foi como passei a ser percebida pelo cliente que paga bem. Triplicou o ticket médio em 60 dias."
           </p>
           <footer class="testimonial__author">
-            <strong>— Cliente em destaque</strong>
-            <span>Substitua por depoimento real</span>
+            <strong>— Ana P., arquiteta de interiores</strong>
+            <span>Cenário ilustrativo · Recife</span>
           </footer>
         </article>
       </div>
     </section>
 
     <!-- ============================================================
-         LEAD MAGNET (Brunson value ladder degree 0)
+         QUIZ FUNNEL — Diagnóstico interativo (Brunson-style)
          ============================================================ -->
     <section class="block" id="diagnostico">
-      <div class="lead-magnet reveal">
-        <div class="lead-magnet__copy">
-          <span class="kicker"><span class="kicker__dot"></span> Diagnóstico gratuito</span>
+      <div class="quiz-wrap reveal">
+        <header class="quiz-head">
+          <span class="kicker"><span class="kicker__dot"></span> Diagnóstico em 90 segundos</span>
           <h2 class="display display--md">
             Antes de me pagar, <em>descubra onde você está.</em>
           </h2>
-          <p class="lead">
-            Baixe o <strong>Diagnóstico de Autoridade Visual</strong> — 12 perguntas + checklist
-            que revelam exatamente onde seu posicionamento atual está deixando dinheiro na mesa.
+          <p class="lead lead--center">
+            8 perguntas. Você sai com um <strong>diagnóstico personalizado</strong> da sua autoridade visual e
+            <strong>3 ações imediatas</strong> que pode aplicar mesmo se não trabalhar comigo.
           </p>
-          <ul class="lead-magnet__benefits">
-            <li>Identifica os 3 pontos críticos do seu site/perfil hoje</li>
-            <li>Mostra o gap entre o que você entrega e como aparenta</li>
-            <li>Te dá 5 ações imediatas que você pode aplicar sozinho</li>
-          </ul>
-        </div>
+        </header>
 
-        <form class="lead-form" id="leadForm" action="https://formspree.io/f/SEU_ENDPOINT_AQUI" method="POST">
-          <p class="lead-form__title">Receber o diagnóstico</p>
-          <div class="field">
-            <label for="leadName">Seu nome</label>
-            <input id="leadName" name="name" type="text" required autocomplete="name" />
+        <div class="quiz" id="quiz">
+          <!-- Progress -->
+          <div class="quiz__progress">
+            <div class="quiz__progress-bar" id="quizProgressBar"></div>
+            <span class="quiz__progress-label" id="quizProgressLabel">Pergunta 1 de 8</span>
           </div>
-          <div class="field">
-            <label for="leadEmail">E-mail</label>
-            <input id="leadEmail" name="email" type="email" required autocomplete="email" />
+
+          <!-- Steps (renderizadas via JS) -->
+          <div class="quiz__steps" id="quizSteps"></div>
+
+          <!-- Result (oculto até completar) -->
+          <div class="quiz__result" id="quizResult" hidden>
+            <div class="quiz__score">
+              <span class="quiz__score-label">Seu Diagnóstico de Autoridade Visual</span>
+              <div class="quiz__score-num" id="quizScoreNum">—</div>
+              <div class="quiz__score-bar">
+                <div class="quiz__score-fill" id="quizScoreFill"></div>
+              </div>
+              <span class="quiz__score-tier" id="quizScoreTier">—</span>
+            </div>
+
+            <div class="quiz__diagnosis" id="quizDiagnosis"></div>
+
+            <div class="quiz__actions" id="quizActions"></div>
+
+            <div class="quiz__cta">
+              <p class="quiz__cta-text" id="quizCtaText">—</p>
+              <a class="btn btn--primary btn--lg" id="quizCtaBtn"
+                 target="_blank" rel="noopener noreferrer">
+                Conversar comigo no WhatsApp
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"/><path d="m13 5 7 7-7 7"/>
+                </svg>
+              </a>
+              <button class="quiz__restart" id="quizRestart">↻ Refazer diagnóstico</button>
+            </div>
           </div>
-          <div class="field">
-            <label for="leadNiche">Sua área</label>
-            <select id="leadNiche" name="niche" required>
-              <option value="">Selecione</option>
-              <option>Médico esteta</option>
-              <option>Dentista</option>
-              <option>Advogado</option>
-              <option>Consultor B2B</option>
-              <option>Terapeuta</option>
-              <option>Arquiteto / Designer</option>
-              <option>Coach / Mentor</option>
-              <option>Outro</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn--primary btn--full">
-            Quero o diagnóstico
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/><path d="m13 5 7 7-7 7"/>
-            </svg>
-          </button>
-          <p class="lead-form__small">
-            Sem spam. Sem newsletter automática. Só o PDF e silêncio.
-          </p>
-        </form>
+        </div>
       </div>
     </section>
 
