@@ -221,7 +221,7 @@
 
     // OPÇÃO 3: Web3Forms (free 250 envios/mês, mais simples)
     // Cole apenas a access_key
-    web3formsKey: '',
+    web3formsKey: 'ca8c9dfd-0c28-4da2-8f68-9fa61ec0a004',
 
     // OPÇÃO 4: Webhook customizado (Zapier, Make, n8n self-hosted, etc.)
     webhook: ''
@@ -252,11 +252,74 @@
     }
 
     if (BACKENDS.web3formsKey) {
+      // Build a clean, readable payload for the email
+      const lead = payload.lead || {};
+      const ans = payload.answers || {};
+      const isCompleted = payload.stage === 'completed';
+      const subject = isCompleted
+        ? `🎯 Diagnóstico completo: ${payload.area} (${payload.score}/100 · ${payload.tier})`
+        : `📋 Lead capturado: ${payload.area} (preencheu mini-form)`;
+
+      const messageLines = [
+        `=== ${isCompleted ? 'DIAGNÓSTICO COMPLETO' : 'LEAD CAPTURADO (mini-form)'} ===`,
+        ``,
+        `Quando: ${payload.timestampLocal}`,
+        ``,
+        `=== LEAD ===`,
+        `Nome: ${lead.name || '(não informado)'}`,
+        `WhatsApp: ${lead.whats || '(não informado)'}`,
+        `Email: ${lead.email || '(não informado)'}`,
+        ``,
+        `=== ÁREA ===`,
+        `${payload.area}`,
+      ];
+
+      if (isCompleted) {
+        messageLines.push(
+          ``,
+          `=== RESULTADO ===`,
+          `Score: ${payload.score}/100`,
+          `Tier: ${payload.tier}`,
+          ``,
+          `=== RESPOSTAS ===`,
+          `Faturamento: ${ans.fat || '-'}`,
+          `Site atual: ${ans.site || '-'}`,
+          `% Pré-vendidos: ${ans['pre-vendido'] || '-'}`,
+          `Tempo explicar valor: ${ans['tempo-explicar'] || '-'}`,
+          `Sente que cobra: ${ans.preco || '-'}`,
+          `Maior incômodo: ${ans.incomoda || '-'}`,
+          `Prazo: ${ans.prazo || '-'}`,
+        );
+      }
+
+      messageLines.push(
+        ``,
+        `---`,
+        `Page: ${payload.pageUrl}`,
+        `Stage: ${payload.stage}`
+      );
+
+      const w3fPayload = {
+        access_key: BACKENDS.web3formsKey,
+        subject: subject,
+        from_name: lead.name || `Lead anônimo · ${payload.area}`,
+        email: lead.email || 'no-reply@cgr-funnel.local',
+        message: messageLines.join('\n'),
+        // Extra fields go as part of the email body too
+        area: payload.area,
+        score: payload.score || '',
+        tier: payload.tier || '',
+        whatsapp: lead.whats || '',
+        stage: payload.stage,
+        // Optional botcheck (anti-spam)
+        botcheck: ''
+      };
+
       promises.push(
         fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ access_key: BACKENDS.web3formsKey, ...payload })
+          body: JSON.stringify(w3fPayload)
         }).catch(e => console.warn('Web3Forms fail:', e))
       );
     }
