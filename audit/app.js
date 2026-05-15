@@ -184,11 +184,178 @@
 
   let answers = {};
   let currentIdx = 0;
+  let leadInfo = null; // { name, whats, email, capturedAt }
 
   const stepsEl   = document.getElementById('quizSteps');
   const barEl     = document.getElementById('quizProgressBar');
   const labelEl   = document.getElementById('quizProgressLabel');
   const resultEl  = document.getElementById('quizResult');
+  const introEl   = document.getElementById('quizIntro');
+  const progressEl= document.getElementById('quizProgress');
+
+  /* ===================== LEAD CAPTURE (intro) ===================== */
+  const LEAD_KEY = 'cgr-fabricio-lead';
+
+  function loadStoredLead() {
+    try {
+      const raw = localStorage.getItem(LEAD_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function saveLead(data) {
+    try { localStorage.setItem(LEAD_KEY, JSON.stringify(data)); } catch (e) {}
+  }
+
+  // ===== Backend dispatcher =====
+  // Envia dados pra TODOS os endpoints configurados (silenciosamente). Se um falha, outros podem ter sucesso.
+  // Configure ABAIXO os endpoints que você quer usar. Deixe vazio se não usar.
+  const BACKENDS = {
+    // OPÇÃO 1 (RECOMENDADA): Google Apps Script Web App
+    // Cole aqui a URL do Web App do Google Sheets + Apps Script (formato https://script.google.com/macros/s/AKfyc.../exec)
+    // Setup completo: ver SETUP-INTEGRACOES.md no repo
+    googleSheets: '',
+
+    // OPÇÃO 2: Formspree (free 50 envios/mês)
+    // Cole o endpoint completo: https://formspree.io/f/SEU_ID
+    formspree: '',
+
+    // OPÇÃO 3: Web3Forms (free 250 envios/mês, mais simples)
+    // Cole apenas a access_key
+    web3formsKey: '',
+
+    // OPÇÃO 4: Webhook customizado (Zapier, Make, n8n self-hosted, etc.)
+    webhook: ''
+  };
+
+  async function sendLeadToBackends(payload) {
+    const promises = [];
+
+    if (BACKENDS.googleSheets) {
+      promises.push(
+        fetch(BACKENDS.googleSheets, {
+          method: 'POST',
+          mode: 'no-cors', // Apps Script web apps require this
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload)
+        }).catch(e => console.warn('GoogleSheets fail:', e))
+      );
+    }
+
+    if (BACKENDS.formspree) {
+      promises.push(
+        fetch(BACKENDS.formspree, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(e => console.warn('Formspree fail:', e))
+      );
+    }
+
+    if (BACKENDS.web3formsKey) {
+      promises.push(
+        fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ access_key: BACKENDS.web3formsKey, ...payload })
+        }).catch(e => console.warn('Web3Forms fail:', e))
+      );
+    }
+
+    if (BACKENDS.webhook) {
+      promises.push(
+        fetch(BACKENDS.webhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(e => console.warn('Webhook fail:', e))
+      );
+    }
+
+    if (promises.length === 0) {
+      // Nenhum backend configurado — só loga
+      console.log('[Audit] Lead captured (no backend configured):', payload);
+      return false;
+    }
+
+    await Promise.allSettled(promises);
+    return true;
+  }
+
+  // ===== Build lead payload from current state =====
+  function buildPayload(stage) {
+    const d = new Date();
+    return {
+      stage, // 'intro' (só preencheu mini-form) ou 'completed' (terminou quiz)
+      timestamp: d.toISOString(),
+      timestampLocal: d.toLocaleString('pt-BR'),
+      area: info.label,
+      areaKey: area,
+      lead: leadInfo || {},
+      answers: Object.fromEntries(
+        Object.entries(answers).map(([k, v]) => [k, v.label || ''])
+      ),
+      score: stage === 'completed' ? computeScore() : null,
+      tier: stage === 'completed' ? computeTier(computeScore()).label : null,
+      pageUrl: location.href,
+      userAgent: navigator.userAgent.slice(0, 200)
+    };
+  }
+
+  function computeScore() {
+    let raw = 0;
+    Object.values(answers).forEach(a => { raw += (a.weight || 0); });
+    return Math.min(100, Math.round((raw / 100) * 100));
+  }
+
+  function computeTier(score) {
+    if (score < 25) return { key: 'critical', label: 'Posicionamento Crítico', color: '#C97171' };
+    if (score < 50) return { key: 'basic',    label: 'Posicionamento Básico',  color: '#D4A276' };
+    if (score < 75) return { key: 'good',     label: 'Posicionamento Consistente', color: '#C9956F' };
+    return            { key: 'premium',  label: 'Posicionamento Premium', color: '#9C8B6E' };
+  }
+
+  // ===== Intro form handlers =====
+  function showQuiz() {
+    introEl.style.display = 'none';
+    progressEl.hidden = false;
+    render();
+  }
+
+  document.getElementById('quizIntroForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name  = document.getElementById('introName').value.trim();
+    const whats = document.getElementById('introWhats').value.trim();
+    const email = document.getElementById('introEmail').value.trim();
+
+    if (!name) {
+      document.getElementById('introName').focus();
+      return;
+    }
+
+    leadInfo = { name, whats, email, capturedAt: new Date().toISOString() };
+    saveLead(leadInfo);
+
+    // Send 'intro' payload (mesmo se não terminar o quiz, lead fica registrado)
+    sendLeadToBackends(buildPayload('intro'));
+
+    showQuiz();
+  });
+
+  document.getElementById('quizIntroSkip').addEventListener('click', () => {
+    showQuiz();
+  });
+
+  // Restore previous lead if any
+  const stored = loadStoredLead();
+  if (stored && stored.name) {
+    leadInfo = stored;
+    // Pre-fill silently if user re-opens quiz
+    document.getElementById('introName').value  = stored.name || '';
+    document.getElementById('introWhats').value = stored.whats || '';
+    document.getElementById('introEmail').value = stored.email || '';
+    // Auto-skip intro if name was already captured
+    showQuiz();
+  }
 
   function render() {
     if (currentIdx >= QUESTIONS.length) { showResult(); return; }
@@ -231,25 +398,20 @@
     barEl.style.width = '100%';
     labelEl.textContent = 'Resultado';
 
-    let raw = 0;
-    Object.values(answers).forEach(a => { raw += (a.weight || 0); });
-    const score = Math.min(100, Math.round((raw / 100) * 100));
+    const score = computeScore();
+    const tier  = computeTier(score);
 
-    let tier, tierLabel, tierColor, ctaTxt, urgency;
-    if (score < 25) {
-      tier='critical'; tierLabel='Posicionamento Crítico'; tierColor='#C97171';
+    let urgency, ctaTxt;
+    if (tier.key === 'critical') {
       urgency = `Como ${info.label.toLowerCase()}, você provavelmente está perdendo 30-60% das oportunidades hoje, antes mesmo da conversa começar.`;
       ctaTxt = 'Você precisa começar pelo básico. Vamos conversar pra eu te dizer onde focar primeiro — sem custo, mesmo que você não trabalhe comigo.';
-    } else if (score < 50) {
-      tier='basic'; tierLabel='Posicionamento Básico'; tierColor='#D4A276';
+    } else if (tier.key === 'basic') {
       urgency = `Como ${info.label.toLowerCase()}, você funciona, mas cobra menos do que poderia e gasta energia em cada negociação.`;
       ctaTxt = 'Tem ativo já. Falta refinar. Vamos conversar pra eu te mostrar o que ajustar primeiro — em geral 2-3 mudanças resolvem 80% do gap.';
-    } else if (score < 75) {
-      tier='good'; tierLabel='Posicionamento Consistente'; tierColor='#C9956F';
+    } else if (tier.key === 'good') {
       urgency = `Como ${info.label.toLowerCase()}, você está acima da maioria. O gap agora é entre "bom" e "premium" — onde se cobra 2-3x mais sem mais esforço.`;
       ctaTxt = 'Você já está acima do mercado. Vamos conversar pra ver se faz sentido subir pro próximo nível — pode ser ajuste fino, pode ser virada de jogo.';
     } else {
-      tier='premium'; tierLabel='Posicionamento Premium'; tierColor='#9C8B6E';
       urgency = `Como ${info.label.toLowerCase()}, você já entendeu o jogo. Provavelmente quer otimizar margem ou escalar canal de aquisição.`;
       ctaTxt = 'Você joga em outro nível. Se chegou aqui, vai ser conversa entre pares. Vamos trocar ideia.';
     }
@@ -287,26 +449,30 @@
     document.getElementById('quizScoreNum').textContent = score;
     const fill = document.getElementById('quizScoreFill');
     fill.style.width = score + '%';
-    fill.style.background = tierColor;
+    fill.style.background = tier.color;
     const tierEl = document.getElementById('quizScoreTier');
-    tierEl.textContent = tierLabel;
-    tierEl.style.color = tierColor;
+    tierEl.textContent = tier.label;
+    tierEl.style.color = tier.color;
 
     document.getElementById('quizCtaText').textContent = ctaTxt;
 
     const fatLabel  = answers.fat ? answers.fat.label : '';
     const prazoLabel= answers.prazo ? answers.prazo.label : '';
+    const namePart  = (leadInfo && leadInfo.name) ? `\nNome: ${leadInfo.name}` : '';
     const waMsg = encodeURIComponent(
-`Olá Fabrício! Acabei de fazer o diagnóstico no seu site.
+`Olá Fabrício! Acabei de fazer o diagnóstico no seu site.${namePart}
 
 Área: ${info.label}
-Score: ${score}/100 (${tierLabel})
+Score: ${score}/100 (${tier.label})
 Faturamento: ${fatLabel}
 Prazo: ${prazoLabel}
 
 Quero conversar sobre meu posicionamento.`
     );
     document.getElementById('quizCtaBtn').href = `https://wa.me/2389554721?text=${waMsg}`;
+
+    // Send completed payload (com todas as respostas) pra todos backends
+    sendLeadToBackends(buildPayload('completed'));
 
     stepsEl.style.display = 'none';
     resultEl.hidden = false;
@@ -325,69 +491,35 @@ Quero conversar sobre meu posicionamento.`
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Email capture (Formspree placeholder — Fabrício configura depois)
-  document.getElementById('quizEmailForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const name = document.getElementById('leadName').value.trim();
-    const email = document.getElementById('leadEmail').value.trim();
-    const status = document.getElementById('quizEmailStatus');
-    if (!name || !email || !email.includes('@')) {
-      status.hidden = false;
-      status.textContent = 'Preencha nome e e-mail válido.';
-      status.style.color = '#C97171';
-      return;
-    }
-
-    // Build payload
-    const score = document.getElementById('quizScoreNum').textContent;
-    const tier = document.getElementById('quizScoreTier').textContent;
-    const payload = {
-      name, email,
-      area: info.label,
-      score, tier,
-      faturamento: answers.fat ? answers.fat.label : '',
-      site: answers.site ? answers.site.label : '',
-      preVendido: answers['pre-vendido'] ? answers['pre-vendido'].label : '',
-      tempoExplicar: answers['tempo-explicar'] ? answers['tempo-explicar'].label : '',
-      preco: answers.preco ? answers.preco.label : '',
-      incomoda: answers.incomoda ? answers.incomoda.label : '',
-      prazo: answers.prazo ? answers.prazo.label : '',
-      _subject: `Novo diagnóstico: ${info.label} (${score}/100)`
-    };
-
-    // TODO Fabrício: substituir endpoint pelo seu Formspree
-    // 1. Cria conta grátis em https://formspree.io
-    // 2. Cria um form, pega o endpoint (formato https://formspree.io/f/SEU_ID)
-    // 3. Substitui FORMSPREE_ENDPOINT abaixo
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/SEU_ENDPOINT';
-
-    if (FORMSPREE_ENDPOINT.includes('SEU_ENDPOINT')) {
-      // Fallback: just show success without sending
-      status.hidden = false;
-      status.textContent = '✓ Recebido. Diagnóstico no e-mail em alguns minutos. (configure Formspree pra envio real)';
-      status.style.color = '#C9956F';
-      console.log('[Audit] Lead captured (no backend yet):', payload);
-      return;
-    }
-
-    try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      });
-      if (res.ok) {
+  // Email-extra capture (after seeing result, ask if didn't give email)
+  const emailForm = document.getElementById('quizEmailForm');
+  if (emailForm) {
+    emailForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('leadName').value.trim();
+      const email = document.getElementById('leadEmail').value.trim();
+      const status = document.getElementById('quizEmailStatus');
+      if (!name || !email || !email.includes('@')) {
         status.hidden = false;
-        status.textContent = '✓ Recebido. Diagnóstico expandido a caminho do seu e-mail.';
-        status.style.color = '#C9956F';
-        document.getElementById('quizEmailForm').reset();
-      } else {
-        throw new Error('HTTP ' + res.status);
+        status.textContent = 'Preencha nome e e-mail válido.';
+        status.style.color = '#C97171';
+        return;
       }
-    } catch (err) {
+
+      // Update lead info with email
+      leadInfo = Object.assign({}, leadInfo || {}, { name, email });
+      saveLead(leadInfo);
+
+      const sent = await sendLeadToBackends(buildPayload('email-followup'));
+
       status.hidden = false;
-      status.textContent = 'Falha no envio. Tente novamente ou fale direto no WhatsApp.';
-      status.style.color = '#C97171';
-    }
-  });
+      if (sent) {
+        status.textContent = '✓ Recebido. Diagnóstico expandido a caminho do seu e-mail.';
+      } else {
+        status.textContent = '✓ Recebido. (Backend não configurado — dados visíveis no console)';
+      }
+      status.style.color = '#C9956F';
+      emailForm.reset();
+    });
+  }
 })();

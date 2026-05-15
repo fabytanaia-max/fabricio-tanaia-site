@@ -57,7 +57,40 @@
         </header>
 
         <div class="quiz" id="quiz">
-          <div class="quiz__progress">
+          <!-- ===== INTRO: lead capture (suave, opcional) ===== -->
+          <div class="quiz__intro" id="quizIntro">
+            <h3 class="quiz__intro-title">Antes de começar — opcional</h3>
+            <p class="quiz__intro-sub">
+              Se preencher, eu mando o <strong>diagnóstico expandido por WhatsApp</strong>
+              (5 ações extras + checklist visual). Sem newsletter automática.
+            </p>
+            <form class="quiz__intro-form" id="quizIntroForm" novalidate>
+              <div class="quiz__intro-field">
+                <label for="introName">Seu nome</label>
+                <input id="introName" name="name" type="text" autocomplete="name" placeholder="Como te chamo?" />
+              </div>
+              <div class="quiz__intro-field">
+                <label for="introWhats">WhatsApp <span class="quiz__intro-opt">(opcional)</span></label>
+                <input id="introWhats" name="whats" type="tel" autocomplete="tel" placeholder="+55 ou +238 ..." />
+              </div>
+              <div class="quiz__intro-field">
+                <label for="introEmail">E-mail <span class="quiz__intro-opt">(opcional)</span></label>
+                <input id="introEmail" name="email" type="email" autocomplete="email" placeholder="seu@email.com" />
+              </div>
+              <div class="quiz__intro-actions">
+                <button type="submit" class="btn btn--primary">
+                  Começar diagnóstico
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14"/><path d="m13 5 7 7-7 7"/>
+                  </svg>
+                </button>
+                <button type="button" class="quiz__intro-skip" id="quizIntroSkip">Pular · responder anônimo</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Progress (oculto até começar quiz) -->
+          <div class="quiz__progress" id="quizProgress" hidden>
             <div class="quiz__progress-bar" id="quizProgressBar"></div>
             <span class="quiz__progress-label" id="quizProgressLabel">Pergunta 1 de 7</span>
           </div>
