@@ -1,201 +1,437 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fabrício Tanaia | Sites Premium</title>
-    <meta
-      name="description"
-      content="Sites de autoridade para especialistas e negócios locais que querem elevar percepção de valor e fechar mais clientes."
-    />
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png?v=2" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16.png?v=2" />
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png?v=2" />
-    <link rel="shortcut icon" href="./favicon.ico?v=2" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./styles.css" />
-  </head>
-  <body>
-    <div class="ambient ambient-a"></div>
-    <div class="ambient ambient-b"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Fabrício Tanaia · Sites como Ativos de Autoridade</title>
+  <meta name="description" content="Sites que posicionam especialistas e negócios locais como referência visual de autoridade. Ativos digitais que justificam preço alto e fecham clientes melhores." />
+  <meta name="theme-color" content="#0E0A07" />
 
-    <header class="topbar">
-      <div class="brand">FABRÍCIO TANAIA</div>
-      <a
-        class="btn ghost"
-        href="https://wa.me/2389554721?text=Olá%2C%20quero%20falar%20sobre%20um%20site%20premium."
-        target="_blank"
-        rel="noopener noreferrer"
-        >Falar no WhatsApp</a
-      >
-    </header>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Fabrício Tanaia · Sites como Ativos de Autoridade" />
+  <meta property="og:description" content="Eu não crio sites. Construo ativos de autoridade digital." />
+  <meta property="og:image" content="./assets/apple-touch-icon.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-    <main>
-      <section class="hero reveal">
-        <div class="hero-copy">
-          <p class="kicker">Sites que fazem você parecer impossível de ignorar</p>
-          <h1>
-            Seu negócio pode ser bom.<br />
-            Mas o seu site ainda faz você parecer comum.
-          </h1>
-          <p>
-            Eu construo sites que transformam especialistas e negócios locais em referências visuais de autoridade, do tipo que cobra mais, atrai clientes melhores e fecha sem esforço.
-          </p>
-          <div class="hero-actions">
-            <a class="btn" href="#contato">Quero um site desse nível</a>
-            <a class="btn ghost" href="#prova">Ver antes e depois</a>
-          </div>
-          <div class="proof-row">
-            <span>Posicionamento premium</span>
-            <span>Percepção de valor</span>
-            <span>Fechamento no WhatsApp</span>
-          </div>
+  <!-- Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32.png?v=3" />
+  <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16.png?v=3" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png?v=3" />
+  <link rel="shortcut icon" href="./favicon.ico?v=3" />
+
+  <!-- Fonts: Manrope (sans), Fraunces (serif moderna), JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Grain + Aurora ambiental -->
+  <div class="grain" aria-hidden="true"></div>
+  <div class="ambient ambient-a" aria-hidden="true"></div>
+  <div class="ambient ambient-b" aria-hidden="true"></div>
+  <div class="ambient ambient-c" aria-hidden="true"></div>
+
+  <!-- Custom cursor (dot + ring) -->
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <span class="cursor__dot"></span>
+    <span class="cursor__ring"></span>
+  </div>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- TOP BAR -->
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a href="#top" class="brand" aria-label="Fabrício Tanaia">
+        <span class="brand__mark">FT</span>
+        <span class="brand__name">FABRÍCIO TANAIA</span>
+      </a>
+      <nav class="topbar__nav" aria-label="Navegação principal">
+        <a href="#manifesto">Manifesto</a>
+        <a href="#processo">Processo</a>
+        <a href="#trabalhos">Trabalhos</a>
+        <a href="#perfil-cliente">Para quem é</a>
+      </nav>
+      <a class="btn btn--ghost"
+         href="https://wa.me/2389554721?text=Olá%2C%20quero%20falar%20sobre%20um%20site%20premium."
+         target="_blank" rel="noopener noreferrer"
+         data-cursor="grow">
+        <span>Falar no WhatsApp</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17 17 7"/><path d="M7 7h10v10"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section class="hero">
+      <div class="hero__copy">
+        <p class="kicker reveal" data-delay="0">
+          <span class="kicker__dot"></span> Sites · Posicionamento · Autoridade
+        </p>
+
+        <h1 class="display reveal" data-delay="100">
+          <span class="line">Seu negócio pode ser bom.</span>
+          <span class="line">
+            <span class="display__italic">Mas seu site</span>
+          </span>
+          <span class="line">
+            <span class="display__italic">faz você parecer</span>
+            <span class="display__highlight">comum.</span>
+          </span>
+        </h1>
+
+        <p class="lead reveal" data-delay="220">
+          Construo sites que transformam especialistas e negócios locais em
+          <strong>referências visuais de autoridade</strong> — do tipo que
+          cobra mais, atrai clientes melhores e fecha sem esforço.
+        </p>
+
+        <div class="hero__actions reveal" data-delay="320">
+          <a class="btn btn--primary"
+             href="https://wa.me/2389554721?text=Quero%20um%20site%20que%20me%20posicione%20como%20premium."
+             target="_blank" rel="noopener noreferrer"
+             data-cursor="grow">
+            Quero um site nesse nível
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/><path d="m13 5 7 7-7 7"/>
+            </svg>
+          </a>
+          <a class="btn btn--ghost" href="#trabalhos" data-cursor="grow">Ver trabalhos</a>
         </div>
 
-        <aside class="hero-card">
-          <div class="profile-wrap">
-            <img src="./assets/perfil-fabricio.webp" alt="Fabrício Tanaia" />
+        <div class="hero__stats reveal" data-delay="420">
+          <div class="stat">
+            <span class="stat__num">3+</span>
+            <span class="stat__label">Anos posicionando<br />negócios premium</span>
           </div>
+          <div class="stat">
+            <span class="stat__num">100%</span>
+            <span class="stat__label">Foco em<br />conversão por WhatsApp</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">∞</span>
+            <span class="stat__label">Versões até o cliente<br />sentir orgulho do site</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="hero__portrait reveal" data-delay="180">
+        <div class="portrait">
+          <div class="portrait__ring"></div>
+          <img src="./assets/perfil-fabricio.webp" alt="Fabrício Tanaia" loading="eager" />
+          <div class="portrait__caption">
+            <span class="portrait__role">Especialista em Posicionamento Digital</span>
+            <span class="portrait__city">Cabo Verde · Atendimento global</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="hero__scroll" aria-hidden="true">
+        <span>Role</span>
+        <span class="hero__scroll-line"></span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MARQUEE (palavras-chave)
+         ============================================================ -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>Posicionamento Premium</span><span>·</span>
+        <span>Autoridade Visual</span><span>·</span>
+        <span>Conversão via WhatsApp</span><span>·</span>
+        <span>Branding de Especialista</span><span>·</span>
+        <span>Sites Cinematográficos</span><span>·</span>
+        <span>Percepção de Valor</span><span>·</span>
+        <span>Posicionamento Premium</span><span>·</span>
+        <span>Autoridade Visual</span><span>·</span>
+        <span>Conversão via WhatsApp</span><span>·</span>
+        <span>Branding de Especialista</span><span>·</span>
+        <span>Sites Cinematográficos</span><span>·</span>
+        <span>Percepção de Valor</span><span>·</span>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MANIFESTO (3 problemas)
+         ============================================================ -->
+    <section class="block" id="manifesto">
+      <header class="block__head reveal">
+        <span class="kicker"><span class="kicker__dot"></span> Manifesto</span>
+        <h2 class="display display--md">
+          Você não perde cliente por <em>falta de tráfego.</em><br />
+          Perde por <em>falta de presença.</em>
+        </h2>
+      </header>
+
+      <div class="problems">
+        <article class="problem reveal" data-delay="0">
+          <span class="problem__num">01</span>
+          <h3>Visual amador</h3>
+          <p>Quando o visual parece genérico, o cliente assume que o serviço também é. Você vira <em>"mais um"</em> antes da primeira conversa.</p>
+        </article>
+        <article class="problem reveal" data-delay="100">
+          <span class="problem__num">02</span>
+          <h3>Mensagem fraca</h3>
+          <p>Se o posicionamento não é claro em 5 segundos, o cliente fecha a aba. Você perde gente que <em>nunca soube</em> que perdeu.</p>
+        </article>
+        <article class="problem reveal" data-delay="200">
+          <span class="problem__num">03</span>
+          <h3>Valor invisível</h3>
+          <p>Cliente não paga caro quando tudo transmite baixo nível. Sem ativo de autoridade, <em>cada negociação vira disputa de preço.</em></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FRASE ÂNCORA — split typography
+         ============================================================ -->
+    <section class="anchor reveal">
+      <p class="anchor__pre">A diferença está na intenção.</p>
+      <h2 class="anchor__phrase">
+        <span class="anchor__line">Eu não crio</span>
+        <span class="anchor__line"><em>sites.</em></span>
+        <span class="anchor__line">Construo <strong>ativos</strong></span>
+        <span class="anchor__line">de <em>autoridade digital.</em></span>
+      </h2>
+      <p class="anchor__sub">
+        Cada página é um instrumento de posicionamento — pensada pra
+        <strong>elevar percepção de valor antes da primeira mensagem.</strong>
+      </p>
+    </section>
+
+    <!-- ============================================================
+         PROCESSO (5 etapas)
+         ============================================================ -->
+    <section class="block" id="processo">
+      <header class="block__head reveal">
+        <span class="kicker"><span class="kicker__dot"></span> Processo</span>
+        <h2 class="display display--md">
+          Como construo seu <em>ativo digital.</em>
+        </h2>
+        <p class="lead lead--center">
+          Não é um briefing seguido de "eu volto em 2 semanas". É um processo
+          colaborativo onde cada etapa tem propósito e validação.
+        </p>
+      </header>
+
+      <ol class="steps">
+        <li class="step reveal" data-delay="0">
+          <span class="step__num">01</span>
           <div>
-            <p class="card-label">Especialista</p>
-            <h2>Fabrício Tanaia</h2>
-            <p>
-              Ativos de autoridade digital para quem quer parar de parecer comum no mercado.
-            </p>
+            <h3>Diagnóstico de posicionamento</h3>
+            <p>Entendo onde você está, quem é seu cliente ideal e o que te separa do mercado. Aqui a gente desenha a <strong>narrativa</strong> antes do design.</p>
           </div>
-        </aside>
-      </section>
+        </li>
+        <li class="step reveal" data-delay="60">
+          <span class="step__num">02</span>
+          <div>
+            <h3>Direção visual</h3>
+            <p>Definimos a <strong>linguagem visual</strong> — paleta, tipografia, mood. Você aprova a direção antes de eu mexer em uma linha de código.</p>
+          </div>
+        </li>
+        <li class="step reveal" data-delay="120">
+          <span class="step__num">03</span>
+          <div>
+            <h3>Construção</h3>
+            <p>Sites feitos no detalhe — performance, animações sutis, mobile impecável. Cada elemento <strong>justifica sua presença</strong>.</p>
+          </div>
+        </li>
+        <li class="step reveal" data-delay="180">
+          <span class="step__num">04</span>
+          <div>
+            <h3>Conversão</h3>
+            <p>Integração WhatsApp com mensagens pré-preenchidas. <strong>O cliente chega com contexto</strong> — você não vende, você confirma.</p>
+          </div>
+        </li>
+        <li class="step reveal" data-delay="240">
+          <span class="step__num">05</span>
+          <div>
+            <h3>Entrega + ajustes</h3>
+            <p>Site no ar com domínio próprio, métricas configuradas e ciclo de refino até <strong>você sentir orgulho de mostrar</strong>.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
 
-      <section id="impacto" class="block reveal">
-        <div class="heading">
-          <p class="kicker">Posicionamento</p>
-          <h2>Você não perde cliente por falta de tráfego.</h2>
-        </div>
-        <div class="grid three">
-          <article class="tile">
-            <h3>Visual amador</h3>
-            <p>Quando o visual parece genérico, o cliente assume que o serviço também é.</p>
-          </article>
-          <article class="tile">
-            <h3>Mensagem fraca</h3>
-            <p>Se o posicionamento não é claro, você vira mais uma opção barata.</p>
-          </article>
-          <article class="tile">
-            <h3>Valor invisível</h3>
-            <p>Cliente não paga caro quando tudo transmite baixo nível.</p>
-          </article>
-        </div>
-      </section>
+    <!-- ============================================================
+         TRABALHOS (case studies)
+         ============================================================ -->
+    <section class="block" id="trabalhos">
+      <header class="block__head reveal">
+        <span class="kicker"><span class="kicker__dot"></span> Trabalhos</span>
+        <h2 class="display display--md">
+          Projetos como <em>peças de posicionamento.</em>
+        </h2>
+      </header>
 
-      <section id="crenca" class="block reveal">
-        <div class="heading">
-          <p class="kicker">Estratégia</p>
-          <h2>Você não precisa de mais um site.</h2>
-        </div>
-        <div class="grid three">
-          <article class="step">
-            <span>01</span>
-            <h3>Posiciona</h3>
-            <p>Te coloca como referência imediatamente.</p>
-          </article>
-          <article class="step">
-            <span>02</span>
-            <h3>Filtra</h3>
-            <p>Afasta curiosos e atrai quem realmente paga.</p>
-          </article>
-          <article class="step">
-            <span>03</span>
-            <h3>Antecipação</h3>
-            <p>Faz o cliente sentir que já deveria estar trabalhando com você.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="o-que-faco" class="block reveal">
-        <div class="heading">
-          <p class="kicker">Entrega</p>
-          <h2>Eu não crio sites. Eu construo ativos de autoridade digital.</h2>
-        </div>
-        <div class="grid two">
-          <article class="asset">
-            <h3>Cada página é pensada para</h3>
-            <ul>
-              <li>Aumentar sua percepção de valor</li>
-              <li>Reduzir objeções antes da conversa</li>
-              <li>Direcionar o cliente para ação</li>
-            </ul>
-          </article>
-          <article class="asset">
-            <h3>Sem desperdício</h3>
-            <ul>
-              <li>Sem firula</li>
-              <li>Sem estética vazia</li>
-              <li>Sem design bonito que não vende</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section id="prova" class="block reveal">
-        <div class="heading">
-          <p class="kicker">Resultado</p>
-          <h2>Um site bem feito muda duas coisas instantaneamente.</h2>
-        </div>
-        <div class="grid two">
-          <article class="asset">
-            <h3>Como o cliente te vê</h3>
-            <p>Percepção de autoridade antes da primeira mensagem.</p>
-          </article>
-          <article class="asset">
-            <h3>Quanto você consegue cobrar</h3>
-            <p>As pessoas compram com os olhos e justificam com a lógica depois.</p>
-          </article>
-        </div>
-      </section>
-
-      <section id="trabalhos-reais" class="block reveal">
-        <div class="heading">
-          <p class="kicker">Trabalhos</p>
-          <h2>Execução de projetos.</h2>
-        </div>
-        <div class="grid three videos-grid">
-          <article class="video-card">
-            <video controls preload="metadata" playsinline>
+      <div class="cases">
+        <article class="case reveal">
+          <div class="case__media">
+            <video autoplay muted loop playsinline preload="metadata" data-cursor="play">
               <source src="./assets/exemplo-dom-winner.mp4" type="video/mp4" />
             </video>
+            <span class="case__badge">Landing premium</span>
+          </div>
+          <div class="case__body">
+            <span class="case__index">Caso 01</span>
             <h3>Dom Winner</h3>
-            <p>Landing com foco em posicionamento de marca e conversão por WhatsApp.</p>
-          </article>
-          <article class="video-card">
-            <video controls preload="metadata" playsinline>
+            <p class="case__pitch">Landing com foco em posicionamento de marca e conversão direta por WhatsApp.</p>
+            <ul class="case__points">
+              <li>Hero com tipografia editorial e copy de autoridade</li>
+              <li>Fluxo único: visitante → mensagem qualificada</li>
+              <li>Mobile-first com cinematic motion</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="case case--reverse reveal">
+          <div class="case__media">
+            <video autoplay muted loop playsinline preload="metadata" data-cursor="play">
               <source src="./assets/exemplo-samsung.mp4" type="video/mp4" />
             </video>
+            <span class="case__badge">Apresentação produto</span>
+          </div>
+          <div class="case__body">
+            <span class="case__index">Caso 02</span>
             <h3>Samsung</h3>
-            <p>Apresentação de interface e fluxo visual para experiência de produto.</p>
-          </article>
-          <article class="video-card">
-            <video controls preload="metadata" playsinline>
+            <p class="case__pitch">Apresentação de interface e fluxo visual orientado a experiência de produto.</p>
+            <ul class="case__points">
+              <li>Storytelling visual sem ruído</li>
+              <li>Hierarquia clara entre forma, função e benefício</li>
+              <li>Performance impecável em todos os dispositivos</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="case reveal">
+          <div class="case__media">
+            <video autoplay muted loop playsinline preload="metadata" data-cursor="play">
               <source src="./assets/exemplo-studio.mp4" type="video/mp4" />
             </video>
+            <span class="case__badge">Brand site</span>
+          </div>
+          <div class="case__body">
+            <span class="case__index">Caso 03</span>
             <h3>Studio Bella</h3>
-            <p>Site com visual premium e comunicação orientada para autoridade.</p>
-          </article>
+            <p class="case__pitch">Site com visual premium e comunicação orientada a autoridade no nicho de beleza.</p>
+            <ul class="case__points">
+              <li>Estética cinematográfica que justifica preço alto</li>
+              <li>Galeria editorial em vez de portfólio genérico</li>
+              <li>Sistema de agendamento integrado</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PERFIL DE CLIENTE (filtra)
+         ============================================================ -->
+    <section class="block" id="perfil-cliente">
+      <header class="block__head reveal">
+        <span class="kicker"><span class="kicker__dot"></span> Para quem é</span>
+        <h2 class="display display--md">
+          Trabalho melhor com quem <em>já sabe que merece mais.</em>
+        </h2>
+      </header>
+
+      <div class="audience">
+        <article class="audience__col audience__col--yes reveal" data-delay="0">
+          <h3>É pra você se</h3>
+          <ul>
+            <li>Você é especialista, médico, advogado, consultor, esteticista, arquiteto ou prestador premium</li>
+            <li>Sente que cobra menos do que entrega</li>
+            <li>Tem clientes bons mas quer atrair clientes <em>melhores</em></li>
+            <li>Quer parar de competir por preço</li>
+            <li>Está pronto pra investir em algo de longo prazo, não em maquiagem</li>
+          </ul>
+        </article>
+
+        <article class="audience__col audience__col--no reveal" data-delay="120">
+          <h3>Não é pra você se</h3>
+          <ul>
+            <li>Quer "um site rapidinho e barato"</li>
+            <li>Não tem clareza de quem é seu cliente</li>
+            <li>Procura template pronto sem direção</li>
+            <li>Quer pagar pra dizer que tem site</li>
+            <li>Espera resultado sem participar do processo</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA FINAL
+         ============================================================ -->
+    <section class="cta-final reveal">
+      <div class="cta-final__inner">
+        <span class="kicker"><span class="kicker__dot"></span> Próximo passo</span>
+        <h2 class="display display--lg">
+          Se seu site não te ajuda a <em>cobrar mais,</em><br />
+          ele está te fazendo <em>perder dinheiro.</em>
+        </h2>
+        <p class="lead lead--center">
+          Vamos conversar. Conta seu negócio, eu olho seu posicionamento atual
+          e te digo honestamente o que dá pra fazer. Sem rodeios, sem proposta
+          inflada — só clareza.
+        </p>
+        <a class="btn btn--primary btn--lg"
+           href="https://wa.me/2389554721?text=Quero%20um%20site%20que%20me%20posicione%20como%20premium."
+           target="_blank" rel="noopener noreferrer"
+           data-cursor="grow">
+          Iniciar conversa no WhatsApp
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m13 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="brand__mark">FT</span>
+        <div>
+          <p class="footer__name">Fabrício Tanaia</p>
+          <p class="footer__tag">Sites como ativos de autoridade · Cabo Verde</p>
         </div>
-      </section>
+      </div>
 
-      <section id="contato" class="cta reveal">
-        <p class="kicker">Próximo passo</p>
-        <h2>Se o seu site não te ajuda a cobrar mais, ele está te fazendo perder dinheiro.</h2>
-        <a class="btn" href="https://wa.me/2389554721?text=Quero%20um%20site%20que%20me%20posicione%20como%20premium." target="_blank" rel="noopener noreferrer">Quero um site que me posicione como premium</a>
-      </section>
-    </main>
+      <nav class="footer__nav" aria-label="Navegação rodapé">
+        <a href="#manifesto">Manifesto</a>
+        <a href="#processo">Processo</a>
+        <a href="#trabalhos">Trabalhos</a>
+        <a href="#perfil-cliente">Para quem é</a>
+      </nav>
 
-    <script src="./app.js"></script>
-  </body>
+      <div class="footer__contact">
+        <p>Pronto pra conversar?</p>
+        <a class="btn btn--ghost btn--sm"
+           href="https://wa.me/2389554721?text=Olá%2C%20quero%20falar%20sobre%20um%20site%20premium."
+           target="_blank" rel="noopener noreferrer">
+          WhatsApp →
+        </a>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p>© <span id="year">2026</span> Fabrício Tanaia · Construído como deveria ser.</p>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
 </html>
-
