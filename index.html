@@ -560,59 +560,77 @@
     </section>
 
     <!-- ============================================================
-         QUIZ FUNNEL — Diagnóstico interativo (Brunson-style)
+         DIAGNÓSTICO — Seletor de área (leva para página dedicada)
          ============================================================ -->
     <section class="block" id="diagnostico">
-      <div class="quiz-wrap reveal">
-        <header class="quiz-head">
-          <span class="kicker"><span class="kicker__dot"></span> Diagnóstico em 90 segundos</span>
-          <h2 class="display display--md">
-            Antes de me pagar, <em>descubra onde você está.</em>
-          </h2>
-          <p class="lead lead--center">
-            8 perguntas. Você sai com um <strong>diagnóstico personalizado</strong> da sua autoridade visual e
-            <strong>3 ações imediatas</strong> que pode aplicar mesmo se não trabalhar comigo.
-          </p>
-        </header>
+      <header class="block__head reveal">
+        <span class="kicker"><span class="kicker__dot"></span> Diagnóstico personalizado</span>
+        <h2 class="display display--md">
+          Antes de me pagar, <em>descubra onde você está.</em>
+        </h2>
+        <p class="lead lead--center">
+          90 segundos. <strong>Diagnóstico personalizado por área</strong> +
+          <strong>3 ações que você pode aplicar hoje</strong> — mesmo que não trabalhe comigo.
+        </p>
+      </header>
 
-        <div class="quiz" id="quiz">
-          <!-- Progress -->
-          <div class="quiz__progress">
-            <div class="quiz__progress-bar" id="quizProgressBar"></div>
-            <span class="quiz__progress-label" id="quizProgressLabel">Pergunta 1 de 8</span>
-          </div>
+      <div class="diag-selector">
+        <p class="diag-selector__label">Escolha sua área pra começar:</p>
 
-          <!-- Steps (renderizadas via JS) -->
-          <div class="quiz__steps" id="quizSteps"></div>
-
-          <!-- Result (oculto até completar) -->
-          <div class="quiz__result" id="quizResult" hidden>
-            <div class="quiz__score">
-              <span class="quiz__score-label">Seu Diagnóstico de Autoridade Visual</span>
-              <div class="quiz__score-num" id="quizScoreNum">—</div>
-              <div class="quiz__score-bar">
-                <div class="quiz__score-fill" id="quizScoreFill"></div>
-              </div>
-              <span class="quiz__score-tier" id="quizScoreTier">—</span>
-            </div>
-
-            <div class="quiz__diagnosis" id="quizDiagnosis"></div>
-
-            <div class="quiz__actions" id="quizActions"></div>
-
-            <div class="quiz__cta">
-              <p class="quiz__cta-text" id="quizCtaText">—</p>
-              <a class="btn btn--primary btn--lg" id="quizCtaBtn"
-                 target="_blank" rel="noopener noreferrer">
-                Conversar comigo no WhatsApp
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14"/><path d="m13 5 7 7-7 7"/>
-                </svg>
-              </a>
-              <button class="quiz__restart" id="quizRestart">↻ Refazer diagnóstico</button>
-            </div>
-          </div>
+        <div class="diag-selector__grid">
+          <a class="diag-card reveal" data-delay="0"   href="./audit/?area=medico"     data-cursor="grow">
+            <span class="diag-card__icon">⚕</span>
+            <span class="diag-card__title">Médico esteta</span>
+            <span class="diag-card__sub">Dermatologista · Estética avançada</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
+          <a class="diag-card reveal" data-delay="60"  href="./audit/?area=dentista"   data-cursor="grow">
+            <span class="diag-card__icon">◈</span>
+            <span class="diag-card__title">Dentista premium</span>
+            <span class="diag-card__sub">Estética · Implantodontia</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
+          <a class="diag-card reveal" data-delay="120" href="./audit/?area=advogado"   data-cursor="grow">
+            <span class="diag-card__icon">§</span>
+            <span class="diag-card__title">Advogado(a)</span>
+            <span class="diag-card__sub">Especialista · Boutique</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
+          <a class="diag-card reveal" data-delay="180" href="./audit/?area=consultor"  data-cursor="grow">
+            <span class="diag-card__icon">◆</span>
+            <span class="diag-card__title">Consultor(a) B2B</span>
+            <span class="diag-card__sub">Estratégia · Implementação</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
+          <a class="diag-card reveal" data-delay="240" href="./audit/?area=terapeuta"  data-cursor="grow">
+            <span class="diag-card__icon">∞</span>
+            <span class="diag-card__title">Terapeuta sênior</span>
+            <span class="diag-card__sub">Psicólogo(a) · Terapeuta</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
+          <a class="diag-card reveal" data-delay="300" href="./audit/?area=arquiteto"  data-cursor="grow">
+            <span class="diag-card__icon">▣</span>
+            <span class="diag-card__title">Arquiteto / Designer</span>
+            <span class="diag-card__sub">Interiores · Projetos premium</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
+          <a class="diag-card reveal" data-delay="360" href="./audit/?area=coach"      data-cursor="grow">
+            <span class="diag-card__icon">↗</span>
+            <span class="diag-card__title">Coach / Mentor</span>
+            <span class="diag-card__sub">Executivo · Negócios · Carreira</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
+          <a class="diag-card reveal" data-delay="420" href="./audit/?area=outro"      data-cursor="grow">
+            <span class="diag-card__icon">＊</span>
+            <span class="diag-card__title">Outra área premium</span>
+            <span class="diag-card__sub">Especialista · Boutique</span>
+            <span class="diag-card__arrow">→</span>
+          </a>
         </div>
+
+        <p class="diag-selector__small">
+          Sem cadastro pra começar. Sua resposta fica privada — nada vai pra mailing.
+        </p>
       </div>
     </section>
 
